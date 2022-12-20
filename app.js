@@ -1,5 +1,6 @@
 const express = require('express');
 const indexRouter = require('./src/routes/index');
+const {serverConfig: {defaultPort}} = require('./config.js')
 
 const app = express();
 indexRouter(app);

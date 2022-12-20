@@ -1,11 +1,13 @@
 exports.serverConfig = {
     defaultHost: 'localhost',
-    defaultPort: 3456,
+    defaultPort: 9090,
     baseUrlPrefix: '/v1/kodo',
     password: 'root'
 };
 
 exports.defaultConfig = {
     defaultSort: 'asc',
-    defaultOrderBy: 'name'
+    defaultOrderBy: 'name',
+    defaultLimit: 100,
+    defaultOffset: 0
 }

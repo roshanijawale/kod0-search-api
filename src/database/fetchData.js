@@ -603,10 +603,10 @@ const data = [
 
 //make database connection
 //fetch data using mysql query
-
 function getData() {
     return data;
 }
-module.export = {
+
+module.exports = {
 getData
 }
