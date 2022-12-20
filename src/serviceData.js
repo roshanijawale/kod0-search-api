@@ -2,6 +2,7 @@ const { getData } = require('./database/fetchData.js')
 
 const getMatchPhrase = (queryParam,sortType,orderBy) => {
     let matchedPhrases = [];
+
     if(queryParam) {
         if(queryParam[0].includes('"') && queryParam[queryParam.length-1].includes('"')) {
             queryParam = queryParam.slice(1 , queryParam.length-2)

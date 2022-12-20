@@ -22,13 +22,12 @@ const getData = async (req,res) => {
         res.send(matchedPhrases.slice(offset, limit)).end();
 
     } catch (e) {
-        console.log(e)
-        res.send({'message' : e.message}).status(500).end();
+        res.status(e.statusCode || 500).json({'message' : e.message}).end();
     }
 
 }
 
-router.get('/search', (req, res) => {
+router.get('/search', async (req, res) => {
     getData(req,res);
 })
 
