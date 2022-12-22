@@ -1,4 +1,4 @@
-const validateQueryParameters = async (sortType, orderBy, offset, limit) => {
+const validateQueryParameters = (sortType, orderBy, offset, limit) => {
     const err = {
       statusCode: 400
     };
@@ -13,12 +13,13 @@ const validateQueryParameters = async (sortType, orderBy, offset, limit) => {
         throw err;
     } else if(!orderBy === 'name' || !orderBy === 'dateLastEdited') {
         err.message = "orderBy value must be name or dateLastEdited";
+        throw err;
     } else if(!sortType === 'asc' || !sortType === 'desc') {
         err.message = "sort value must be asc or desc";
+        throw err;
     } else {
-        return orderBy, sortType, offset, limit;
+        return { orderBy, sortType, offset, limit };
     }
-
 }
 
 module.exports = validateQueryParameters;

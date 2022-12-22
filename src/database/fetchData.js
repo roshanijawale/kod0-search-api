@@ -603,10 +603,10 @@ const data = [
 
 //make database connection
 //fetch data using mysql query
-function getData() {
+async function fetchMoviesFromDatabase() {
     return data;
 }
 
 module.exports = {
-getData
+    fetchMoviesFromDatabase
 }

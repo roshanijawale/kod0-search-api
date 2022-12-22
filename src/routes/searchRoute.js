@@ -1,34 +1,27 @@
 const express = require('express');
-const {data, getMatchPhrase, searchMatch, searchExactMatch}  = require('../serviceData')
+const {data, batchFilterData, searchMatch, searchExactMatch}  = require('../service/serviceData')
 const router = express.Router();
 const {serverConfig: {baseUrlPrefix}, defaultConfig: {defaultSort, defaultOrderBy, defaultLimit, defaultOffset}} = require('../../config.js')
 const validateQueryParameters = require('../utils/validation')
 
-const getData = async (req,res) => {
+router.get('/search', async (req, res) => {
     try {
-        const queryParam = req.query.query;
-        let sortType = req.query.sort ? req.query.sort : defaultSort;
-        let orderBy = req.query.orderBy ? req.query.orderBy : defaultOrderBy;
-        let limit = req.query.limit ? req.query.limit : defaultLimit;
-        let offset = req.query.offset ? req.query.offset : defaultOffset;
+        const searchString = req.query.searchString;
+        let sortTypeHeader = req.query.sort ? req.query.sort : defaultSort; //sortBy
+        let orderByHeader = req.query.orderBy ? req.query.orderBy : defaultOrderBy;
+        let limitHeader = req.query.limit ? req.query.limit : defaultLimit;
+        let offsetHeader = req.query.offset ? req.query.offset : defaultOffset;
 
-        sortType, orderBy, offset, limit = await validateQueryParameters(sortType, orderBy, offset, limit);
+        let { sortType, orderBy, offset, limit } = validateQueryParameters(sortTypeHeader, orderByHeader, offsetHeader, limitHeader);
 
-        const matchedPhrases = getMatchPhrase(queryParam,sortType,orderBy);
+        const { total, matchedPhrases } = await batchFilterData(searchString, sortType, orderBy, offset, limit );
 
-        limit = parseInt(offset) + parseInt(limit)
-
-        res.setHeader("total-records", matchedPhrases.length);
-        res.send(matchedPhrases.slice(offset, limit)).end();
+        res.setHeader("total-records", total);
+        res.send(matchedPhrases).end();
 
     } catch (e) {
         res.status(e.statusCode || 500).json({'message' : e.message}).end();
     }
-
-}
-
-router.get('/search', async (req, res) => {
-    getData(req,res);
 })
 
 module.exports = (app) => app.use(baseUrlPrefix, router);
