@@ -1,9 +1,9 @@
 # kod0-search-api
 Using this API you can search and sort the elements present in the data
 
-To run this app go through following steps
+To run this app go through the following steps
 
-1.First download the project or open it using version control 
+1.First clone the project 
 
 2.Install the required packages using following command - 
  `npm i`
